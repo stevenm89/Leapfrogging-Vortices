@@ -6,21 +6,26 @@
 using LinearAlgebra
 
 #Input ------------------------------------------------------------
-# Coordinate dimensions are positive x to the right, y up, and z out of the page
-# Vortex particle numbers are two Leapfrogging vortex rings cut in half with 
-# being the bottom left half of ring and 2 above it of the same ring. 3 is top right
-# of the second ring, and 4 is bottom right.
-d12 = [ 0, 1, 0]; #Initial vector distance between 1 to 2 (same vortex)
-d23 = [ 1, 0, 0]; #Initial vector distance between 2 to 3
-d34 = [ 0, -1, 0]; #Initial vector distance between 3 to 4 (same vortex)
-d41 = [ -1, 0, 0]; #Initial vector distance between 4 to 1
+# Coordinate dimensions are positive x to the right, y up, and z out of the page (circulation)
+# Vortex cross section numbers are two Leapfrogging vortex rings cut in half with 1
+# being the bottom left half of vortex 1 with 2 above. Similarly, for the second vortex, 4 and 3.
+pos1 = [0,-.5,0]; #Initial positions of 4 vortices cross section points
+pos2 = [0,.5,0];
+pos3 = [1,.5,0];
+pos4 = [1,-.5,0];
 
 circ23 = [0; 0; 1]; #Cirulation or strength of vortex of top two particles on different vortex rings cut in half
 circ14 = [0; 0; -1]; #Cirulation or strength of vortex of bottom two particles on different vortex rings cut in half
 x = 1; #Number of Time Steps Desired
+timestep = .01; #Length of time step
 
 #Output -----------------------------------------------------------
 #Get initial radius for all affecting particle 1
+d12 = pos2-pos1; #Initial vector distance between 1 to 2 (same vortex) etc.
+d23 = pos3-pos2; 
+d34 = pos4-pos3; 
+d41 = pos1-pos4; 
+
 r2to1 = -d12; #Enter initial vector distance of particle 2 to 1 (same vortex ring)
 r3to1 = -(d12+d23); #Enter initial vector distance of particle 3 to 1 (other vortex ring)
 r4to1 = d41; #Enter initial vector distance of particle 4 to 1 (other vortex ring)
@@ -53,7 +58,7 @@ rnorm2to4 = norm(r2to4);
 rnorm3to4 = norm(r3to4);
 
 
-for n2 = x
+#for n = 1:x
     #Get velocity effects of 2,3,4 on 1
     tanvel2on1 = cross(circ23, r2to1)/(2*pi*rnorm2to1^2); #Tangential velocity of vortex 2 acting on 1
     tanvel3on1 = cross(circ23, r3to1)/(2*pi*rnorm3to1^2); #Tangential velocity of vortex 3 acting on 1
@@ -77,7 +82,13 @@ for n2 = x
     tanvel2on4 = cross(circ23, r2to4)/(2*pi*rnorm2to4^2);
     tanvel3on4 = cross(circ23, r3to4)/(2*pi*rnorm3to4^2);
     tanvelon4 = tanvel1on4 + tanvel2on4 + tanvel3on4;
-end
+
+    #Now get position velocity*timestep change and add to current position
+    pos1 = tanvelon1*timestep + pos1; #Position of vortex 1 after time steps
+    pos2 = tanvelon2*timestep + pos2;
+    pos3 = tanvelon3*timestep + pos3;
+    pos4 = tanvelon4*timestep + pos4;
+#end
 println("Tangential velocity of vortex 1:")
 println(tanvelon1)
 println("Tangential velocity of vortex 2:")
@@ -86,3 +97,14 @@ println("Tangential velocity of vortex 3:")
 println(tanvelon3)
 println("Tangential velocity of vortex 4:")
 println(tanvelon4)
+
+println("")
+
+println("Position 1")
+println(pos1)
+println("Position 2")
+println(pos2)
+println("Position 3")
+println(pos3)
+println("Position 4")
+println(pos4)
