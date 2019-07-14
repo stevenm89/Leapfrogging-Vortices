@@ -17,7 +17,7 @@ pos4 = [1,-.5,0];
 
 circ23 = [0; 0; 1]; #Cirulation or strength of vortex of top two particles on different vortex rings cut in half
 circ14 = [0; 0; -1]; #Cirulation or strength of vortex of bottom two particles on different vortex rings cut in half
-x = 2; #Number of Time Steps Desired
+x = 4000; #Number of Time Steps Desired
 timestep = .01; #Length of time step
 
 #Output -----------------------------------------------------------
@@ -32,8 +32,26 @@ vel1store = zeros(x,3);
 vel2store = zeros(x,3);
 vel3store = zeros(x,3);
 vel4store = zeros(x,3);
-n = 1
-#for n = 1:x
+
+for n = 1:x
+    #Declare all variables such that they become global
+    global pos1
+    global pos2
+    global pos3
+    global pos4
+    global circ23
+    global circ14
+    global timestep 
+    global pos1store
+    global pos2store
+    global pos3store
+    global pos4store
+    global vel1store
+    global vel2store
+    global vel3store
+    global vel4store
+
+    
     #Get current distance between vortices
     d12 = pos2-pos1; #Initial vector distance between 1 to 2 (same vortex) etc.
     d23 = pos3-pos2; 
@@ -114,39 +132,39 @@ n = 1
     pos2store[n,:] = pos2;
     pos3store[n,:] = pos3;
     pos4store[n,:] = pos4;
-#end
+end
 #Now Graph the results
-#Velocities
-plot(vel1store[:,1],vel1store[:,2], label = "vel1store", lw = 2)
-plot!(vel2store[:,1],vel2store[:,2])
-plot!(vel3store[:,1],vel3store[:,2])
-plot!(vel4store[:,1],vel4store[:,2])
-
 #Positions
-plot!(pos1store[:,1],pos1store[:,2])
-plot!(pos2store[:,1],pos2store[:,2])
-plot!(pos3store[:,1],pos3store[:,2])
-plot!(pos4store[:,1],pos4store[:,2])
+plot(pos1store[:,1],pos1store[:,2], label = "Position 1", lw = 2, title = "The Cross-Section of Two Leapfrogging Vortices", xlabel = "X Distance", ylabel = "Y Distance")
+plot!(pos2store[:,1],pos2store[:,2], label = "Position 2", lw = 2)
+plot!(pos3store[:,1],pos3store[:,2], label = "Position 3", lw = 2)
+plot!(pos4store[:,1],pos4store[:,2], label = "Position 4", lw = 2)
+
+# #Velocities
+# plot(vel1store[:,1],vel1store[:,2], label = "Velocity 1", lw = 2)
+# plot!(vel2store[:,1],vel2store[:,2], label = "Velocity 2", lw = 2)
+# plot!(vel3store[:,1],vel3store[:,2], label = "Velocity 3", lw = 2)
+# plot!(vel4store[:,1],vel4store[:,2], label = "Velocity 4", lw = 2)
 #DONE
 
 
 
-println("Tangential velocity of vortex 1:")
-println(vel1store)
-println("Tangential velocity of vortex 2:")
-println(vel2store)
-println("Tangential velocity of vortex 3:")
-println(vel3store)
-println("Tangential velocity of vortex 4:")
-println(vel4store)
+# println("Tangential velocity of vortex 1:")
+# println(vel1store)
+# println("Tangential velocity of vortex 2:")
+# println(vel2store)
+# println("Tangential velocity of vortex 3:")
+# println(vel3store)
+# println("Tangential velocity of vortex 4:")
+# println(vel4store)
 
-println("")
+# println("")
 
-println("Position 1")
-println(pos1store)
-println("Position 2")
-println(pos2store)
-println("Position 3")
-println(pos3store)
-println("Position 4")
-println(pos4store)
+# println("Position 1")
+# println(pos1store)
+# println("Position 2")
+# println(pos2store)
+# println("Position 3")
+# println(pos3store)
+# println("Position 4")
+# println(pos4store)
