@@ -135,7 +135,7 @@ for n = 1:x
 end
 #Now Graph the results
 #Positions
-plot(pos1store[:,1],pos1store[:,2], label = "Position 1", lw = 2, title = "The Cross-Section of Two Leapfrogging Vortices", xlabel = "X Distance", ylabel = "Y Distance")
+plot(pos1store[:,1],pos1store[:,2], label = "Position 1", lw = 2, xlabel = "X Distance", ylabel = "Y Distance")
 plot!(pos2store[:,1],pos2store[:,2], label = "Position 2", lw = 2)
 plot!(pos3store[:,1],pos3store[:,2], label = "Position 3", lw = 2)
 plot!(pos4store[:,1],pos4store[:,2], label = "Position 4", lw = 2)
